@@ -34,6 +34,11 @@ a{text-decoration:none;color:inherit;}
 .nav-item{color:rgba(255,255,255,.88);font-size:15px;font-weight:600;padding:12px 15px;cursor:pointer;border-right:1px solid rgba(255,255,255,.1);transition:background .2s;white-space:nowrap;display:flex;align-items:center;}
 .nav-item:hover{background:var(--blue-mid);color:#fff;}
 .nav-item.active{background:var(--red);color:#fff;}
+.nav-items{display:flex;align-items:stretch;flex:1;}
+.nav-toggle{display:none;background:var(--red);color:#fff;border:none;padding:13px 18px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;align-items:center;gap:10px;text-align:left;width:100%;}
+.nav-toggle:hover{background:var(--red-dark);}
+.nav-toggle .bars{font-size:20px;line-height:1;}
+@media(max-width:1024px){.main-nav-inner{flex-direction:column;}.nav-toggle{display:flex;}.nav-items{display:none;flex-direction:column;max-height:75vh;overflow-y:auto;border-top:1px solid rgba(255,255,255,.15);}.nav-items.open{display:flex;}.nav-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.1);padding:13px 20px;}}
 
 /* VIDEO BANNER */
 .video-banner{background:linear-gradient(135deg,#0d1f33 0%,var(--blue) 60%,var(--blue-mid) 100%);padding:20px 0;border-bottom:3px solid var(--gold);}
@@ -191,6 +196,8 @@ footer{background:var(--blue);margin-top:20px;}
 </div>
 <nav class="main-nav">
   <div class="main-nav-inner">
+    <button class="nav-toggle" aria-label="मेनु" onclick="this.parentNode.querySelector('.nav-items').classList.toggle('open')"><span class="bars">☰</span><span>मेनु</span></button>
+    <div class="nav-items">
     <div class="nav-item" onclick="location.href='index.html'">🏠</div>
     <div class="nav-item">ताजा समाचार</div>
     <div class="nav-item" onclick="location.href='category.html'">राजनीति</div>
@@ -205,6 +212,7 @@ footer{background:var(--blue);margin-top:20px;}
     <div class="nav-item">स्वास्थ्य</div>
     <div class="nav-item" onclick="location.href='photo-gallery.html'">फोटो</div>
     <div class="nav-item active">भिडियो</div>
+    </div>
   </div>
 </nav>
 
