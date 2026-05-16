@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>भिडियो समाचार — नेपाल समाचार</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800&family=Noto+Serif+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--red:#c0392b;--red-dark:#922b21;--blue:#1a5276;--blue-mid:#2471a3;--blue-light:#d6eaf8;--blue-pale:#eaf4fb;--gold:#d4a017;--gray:#f4f6f7;--border:#d5d8dc;--text:#1c2833;--muted:#626567;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans Devanagari',sans-serif;background:#f0f3f4;color:var(--text);font-size:16px;line-height:1.65;}
+h1,h2,h3,h4{font-family:'Noto Serif Devanagari',serif;}
+a{text-decoration:none;color:inherit;}
+.top-bar{background:var(--blue);color:rgba(255,255,255,.8);font-size:13px;padding:6px 0;border-bottom:2px solid var(--gold);}
+.top-bar-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
+.top-date{display:flex;align-items:center;gap:12px;}
+.top-date span{color:rgba(255,255,255,.7);}
+.top-links{display:flex;gap:14px;}
+.top-links a{color:rgba(255,255,255,.7);font-size:13px;transition:color .2s;}
+.top-links a:hover{color:#fff;}
+.masthead{background:#fff;border-bottom:3px solid var(--blue);padding:14px 0 10px;}
+.masthead-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Noto Serif Devanagari',serif;font-size:2.5rem;font-weight:800;line-height:1;color:var(--red);letter-spacing:-1px;}
+.logo-sub{font-size:13px;color:var(--muted);font-family:'Noto Sans Devanagari',sans-serif;font-weight:400;margin-top:3px;}
+.masthead-actions{display:flex;align-items:center;gap:10px;}
+.search-box{display:flex;align-items:center;background:var(--gray);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.search-box input{border:none;background:transparent;padding:7px 10px;font-size:14px;font-family:'Noto Sans Devanagari',sans-serif;outline:none;width:160px;color:var(--text);}
+.search-box button{background:var(--blue-mid);border:none;color:#fff;padding:6px 10px;cursor:pointer;}
+.btn-epaper{background:var(--red);color:#fff;font-size:14px;font-weight:600;padding:8px 15px;border-radius:4px;border:none;cursor:pointer;}
+.btn-login{background:var(--blue);color:#fff;font-size:14px;font-weight:600;padding:8px 15px;border-radius:4px;border:none;cursor:pointer;}
+.main-nav{background:var(--blue);position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.18);}
+.main-nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:stretch;}
+.nav-item{color:rgba(255,255,255,.88);font-size:15px;font-weight:600;padding:12px 15px;cursor:pointer;border-right:1px solid rgba(255,255,255,.1);transition:background .2s;white-space:nowrap;display:flex;align-items:center;}
+.nav-item:hover{background:var(--blue-mid);color:#fff;}
+.nav-item.active{background:var(--red);color:#fff;}
+
+/* VIDEO BANNER */
+.video-banner{background:linear-gradient(135deg,#0d1f33 0%,var(--blue) 60%,var(--blue-mid) 100%);padding:20px 0;border-bottom:3px solid var(--gold);}
+.video-banner-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
+.banner-left{display:flex;align-items:center;gap:14px;}
+.vid-icon{width:52px;height:52px;background:var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
+.banner-title{font-family:'Noto Serif Devanagari',serif;font-size:1.9rem;font-weight:800;color:#fff;}
+.banner-sub{font-size:14px;color:rgba(255,255,255,.6);margin-top:2px;}
+.banner-right{display:flex;align-items:center;gap:10px;}
+.vid-search{display:flex;align-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:5px;overflow:hidden;}
+.vid-search input{border:none;background:transparent;padding:8px 12px;font-size:12px;font-family:'Noto Sans Devanagari',sans-serif;outline:none;width:200px;color:#fff;}
+.vid-search input::placeholder{color:rgba(255,255,255,.5);}
+.vid-search button{background:var(--red);border:none;color:#fff;padding:8px 12px;cursor:pointer;font-size:13px;}
+
+/* CATEGORY TABS */
+.vid-tabs{background:#fff;border-bottom:2px solid var(--border);}
+.vid-tabs-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:0;overflow-x:auto;}
+.vid-tab{padding:11px 17px;font-size:15px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;margin-bottom:-2px;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.vid-tab:hover{color:var(--blue);}
+.vid-tab.active{color:var(--red);border-bottom-color:var(--red);}
+
+/* BREADCRUMB */
+.breadcrumb{max-width:1280px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);}
+.breadcrumb a{color:var(--blue-mid);}
+.breadcrumb span{color:var(--border);}
+
+/* MAIN LAYOUT */
+.page{max-width:1280px;margin:0 auto;padding:14px 16px 32px;display:grid;grid-template-columns:1fr 300px;gap:18px;}
+
+/* FEATURED VIDEO PLAYER */
+.player-section{background:#000;border-radius:8px;overflow:hidden;margin-bottom:16px;position:relative;}
+.player-screen{width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#0d1f33 0%,#1a3a5c 50%,#1a5276 100%);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;}
+.player-emoji{font-size:5rem;opacity:.5;transition:opacity .2s;}
+.player-screen:hover .player-emoji{opacity:.7;}
+.play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.play-circle{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.15);border:3px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:1.8rem;transition:all .3s;cursor:pointer;}
+.play-circle:hover{background:var(--red);border-color:var(--red);transform:scale(1.1);}
+.player-bar{background:#1a1a1a;padding:12px 16px;}
+.progress-wrap{position:relative;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin-bottom:10px;cursor:pointer;}
+.progress-fill{height:100%;width:35%;background:var(--red);border-radius:2px;position:relative;}
+.progress-fill::after{content:'';position:absolute;right:-5px;top:-4px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 4px rgba(0,0,0,.5);}
+.player-controls{display:flex;align-items:center;justify-content:space-between;}
+.ctrl-left{display:flex;align-items:center;gap:12px;}
+.ctrl-btn{background:none;border:none;color:rgba(255,255,255,.8);font-size:1.1rem;cursor:pointer;padding:4px;transition:color .2s;}
+.ctrl-btn:hover{color:#fff;}
+.time-display{font-size:13px;color:rgba(255,255,255,.6);font-family:monospace;}
+.vol-wrap{display:flex;align-items:center;gap:8px;}
+.vol-bar{width:70px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;cursor:pointer;position:relative;}
+.vol-fill{height:100%;width:80%;background:rgba(255,255,255,.6);border-radius:2px;}
+.ctrl-right{display:flex;align-items:center;gap:10px;}
+.quality-badge{background:rgba(255,255,255,.15);color:rgba(255,255,255,.8);font-size:12px;font-weight:700;padding:2px 7px;border-radius:3px;cursor:pointer;}font-weight:700;padding:2px 7px;border-radius:3px;cursor:pointer;}
+.player-info{background:#fff;border:1px solid var(--border);border-radius:0 0 8px 8px;padding:14px 16px;margin-top:-2px;}
+.pi-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;}
+.pi-title{font-family:'Noto Serif Devanagari',serif;font-size:1.15rem;font-weight:700;line-height:1.4;color:var(--text);}
+.pi-share{display:flex;gap:6px;flex-shrink:0;}
+.ps-btn{padding:5px 12px;border-radius:4px;border:none;font-size:11.5px;font-weight:700;cursor:pointer;}
+.ps-fb{background:#1877f2;color:#fff;}
+.ps-wa{background:#25d366;color:#fff;}
+.ps-copy{background:var(--gray);color:var(--text);border:1px solid var(--border);}
+.pi-meta{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted);}
+.pi-views{display:flex;align-items:center;gap:4px;}
+
+/* VIDEO GRID */
+.sec-head{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--blue);margin-bottom:12px;padding-bottom:6px;}
+.sec-head h2{font-size:17px;font-weight:700;color:var(--blue);padding-left:10px;border-left:3px solid var(--red);}
+.sec-head .more{font-size:14px;color:var(--blue-mid);font-weight:600;}
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.vid-card{background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s;}
+.vid-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.12);transform:translateY(-2px);}
+.vid-thumb{position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:2.5rem;overflow:hidden;}
+.vt-bg1{background:linear-gradient(135deg,#1a3a5c,#2471a3);}
+.vt-bg2{background:linear-gradient(135deg,#1a4a2a,#1a7a4a);}
+.vt-bg3{background:linear-gradient(135deg,#4a1a2a,#a02030);}
+.vt-bg4{background:linear-gradient(135deg,#3a2a1a,#8a6020);}
+.vt-bg5{background:linear-gradient(135deg,#2a1a4a,#6030a0);}
+.vt-bg6{background:linear-gradient(135deg,#1a3a3a,#1a7a7a);}
+.vt-bg7{background:linear-gradient(135deg,#3a1a1a,#c03030);}
+.vt-bg8{background:linear-gradient(135deg,#1a2a3a,#2a5a8a);}
+.vt-bg9{background:linear-gradient(135deg,#1a4a1a,#2a8a2a);}
+.vid-play-btn{position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;}
+.vid-card:hover .vid-play-btn{background:var(--red);border-color:var(--red);}
+.vid-duration{position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,.75);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;font-family:monospace;}
+.vid-live{position:absolute;top:6px;left:8px;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;animation:livePulse 2s infinite;}
+@keyframes livePulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+.vid-body{padding:10px 12px 12px;}
+.vid-cat{font-size:12px;font-weight:700;color:var(--blue-mid);margin-bottom:4px;}
+.vid-title{font-family:'Noto Serif Devanagari',serif;font-size:16px;font-weight:700;line-height:1.45;color:var(--text);margin-bottom:6px;}
+.vid-title:hover{color:var(--red);}
+.vid-meta{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--muted);}
+
+/* LOAD MORE */
+.load-more-wrap{text-align:center;margin-top:16px;}
+.btn-load{background:#fff;border:1px solid var(--border);color:var(--blue);font-size:15px;font-weight:700;padding:10px 32px;border-radius:5px;cursor:pointer;font-family:'Noto Sans Devanagari',sans-serif;transition:all .2s;}font-weight:700;padding:10px 32px;border-radius:5px;cursor:pointer;font-family:'Noto Sans Devanagari',sans-serif;transition:all .2s;}
+.btn-load:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.widget{background:#fff;border:1px solid var(--border);border-radius:5px;overflow:hidden;}
+.widget-head{background:var(--blue);color:#fff;font-size:15px;font-weight:700;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;}
+.widget-head .more-link{font-size:13px;color:rgba(255,255,255,.7);font-weight:400;}
+.widget-body{padding:0 12px;}
+.playlist-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #eaecee;cursor:pointer;}
+.playlist-item:last-child{border-bottom:none;}
+.playlist-item:hover .pl-title{color:var(--red);}
+.playlist-item.active{background:var(--blue-pale);margin:0 -12px;padding:8px 12px;}
+.pl-thumb{width:72px;height:48px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.2rem;position:relative;overflow:hidden;}
+.pl-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);}
+.pl-play span{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--blue);}
+.pl-dur{position:absolute;bottom:2px;right:4px;background:rgba(0,0,0,.75);color:#fff;font-size:9px;font-family:monospace;padding:1px 4px;border-radius:2px;}
+.pl-title{font-family:'Noto Serif Devanagari',serif;font-size:15px;font-weight:700;line-height:1.4;color:var(--text);}
+.pl-meta{font-size:13px;color:var(--muted);margin-top:2px;}
+.now-playing{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:2px;margin-bottom:3px;display:inline-block;}font-weight:700;padding:1px 6px;border-radius:2px;margin-bottom:3px;display:inline-block;}
+.tags-box{padding:12px;display:flex;flex-wrap:wrap;gap:6px;}
+.tag-item{background:var(--blue-pale);color:var(--blue);font-size:13px;font-weight:600;padding:5px 12px;border-radius:3px;border:1px solid var(--blue-light);cursor:pointer;transition:all .2s;}
+.tag-item:hover{background:var(--blue);color:#fff;}
+
+/* FOOTER */
+footer{background:var(--blue);margin-top:20px;}
+.footer-top{max-width:1280px;margin:0 auto;padding:28px 16px 20px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2rem;}
+.footer-logo{font-family:'Noto Serif Devanagari',serif;font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:9px;}
+.footer-about{font-size:16px;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:14px;}
+.footer-social{display:flex;gap:8px;}
+.soc-btn{width:34px;height:34px;border-radius:4px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:15px;cursor:pointer;font-weight:700;transition:all .2s;}
+.soc-btn:hover{background:var(--red);border-color:var(--red);color:#fff;}
+.footer-col h5{font-size:16px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:7px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.footer-col li a{font-size:16px;color:rgba(255,255,255,.55);}
+.footer-col li a:hover{color:rgba(255,255,255,.9);}
+.footer-bottom{background:rgba(0,0,0,.25);padding:10px 0;}
+.footer-bottom-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
+.footer-copy{font-size:15px;color:rgba(255,255,255,.45);}
+.footer-legal{display:flex;gap:14px;}
+.footer-legal a{font-size:15px;color:rgba(255,255,255,.45);}
+.footer-legal a:hover{color:rgba(255,255,255,.8);}
+
+@media(max-width:1024px){.page{grid-template-columns:1fr;}.video-grid{grid-template-columns:repeat(2,1fr);}.footer-top{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.video-grid{grid-template-columns:1fr;}.masthead-actions{display:none;}.banner-right{display:none;}.footer-top{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-date"><span>🗓 बिहीबार, ०१ जेठ २०८२</span><span style="border-left:1px solid rgba(255,255,255,.2);padding-left:12px;">Thursday, 15 May 2026</span></div>
+    <div class="top-links"><a href="index.html">गृहपृष्ठ</a><a href="#">ई-पेपर</a><a href="#">अंग्रेजी</a><a href="#">सम्पर्क</a></div>
+    <div style="color:rgba(255,255,255,.8);font-size:12px;">☀️ काठमाडौं: २७°C</div>
+  </div>
+</div>
+<div class="masthead">
+  <div class="masthead-inner">
+    <div><div class="logo"><a href="index.html">नेपाल समाचार</a></div><div class="logo-sub">सत्य, निष्पक्षता र विश्वसनीयता</div></div>
+    <div style="background:var(--blue-pale);border:1px solid var(--blue-light);border-radius:6px;padding:8px 24px;text-align:center;color:var(--blue);font-size:11px;font-weight:600;"><span style="font-size:9px;color:var(--muted);display:block;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px;">विज्ञापन</span>📢 यहाँ विज्ञापन राख्न सम्पर्क गर्नुहोस् — ०१-४४२१२३४</div>
+    <div class="masthead-actions"><div class="search-box"><input type="text" placeholder="खोज्नुहोस्…"/><button>🔍</button></div><button class="btn-epaper">ई-पेपर</button><button class="btn-login">लगइन</button></div>
+  </div>
+</div>
+<nav class="main-nav">
+  <div class="main-nav-inner">
+    <div class="nav-item" onclick="location.href='index.html'">🏠</div>
+    <div class="nav-item">ताजा समाचार</div>
+    <div class="nav-item" onclick="location.href='category.html'">राजनीति</div>
+    <div class="nav-item">अर्थ-वाणिज्य</div>
+    <div class="nav-item">समाज</div>
+    <div class="nav-item">प्रदेश</div>
+    <div class="nav-item">खेलकुद</div>
+    <div class="nav-item">विश्व</div>
+    <div class="nav-item">प्रविधि</div>
+    <div class="nav-item">मनोरञ्जन</div>
+    <div class="nav-item">विचार</div>
+    <div class="nav-item">स्वास्थ्य</div>
+    <div class="nav-item" onclick="location.href='photo-gallery.html'">फोटो</div>
+    <div class="nav-item active">भिडियो</div>
+  </div>
+</nav>
+
+<!-- VIDEO BANNER -->
+<div class="video-banner">
+  <div class="video-banner-inner">
+    <div class="banner-left">
+      <div class="vid-icon">▶️</div>
+      <div><div class="banner-title">भिडियो समाचार</div><div class="banner-sub">नेपालका प्रमुख घटनाका भिडियो रिपोर्ट</div></div>
+    </div>
+    <div class="banner-right">
+      <div class="vid-search"><input type="text" placeholder="भिडियो खोज्नुहोस्…"/><button>🔍</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="vid-tabs">
+  <div class="vid-tabs-inner">
+    <div class="vid-tab active">🎬 सबै भिडियो</div>
+    <div class="vid-tab">🔴 लाइभ</div>
+    <div class="vid-tab">📰 समाचार</div>
+    <div class="vid-tab">🏛️ राजनीति</div>
+    <div class="vid-tab">💰 अर्थ</div>
+    <div class="vid-tab">🏏 खेलकुद</div>
+    <div class="vid-tab">🌍 विश्व</div>
+    <div class="vid-tab">🎭 मनोरञ्जन</div>
+    <div class="vid-tab">🎙️ अन्तर्वार्ता</div>
+    <div class="vid-tab">📊 विश्लेषण</div>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">गृहपृष्ठ</a><span>›</span><span style="color:var(--text);">भिडियो समाचार</span>
+</div>
+
+<div class="page">
+  <div>
+    <!-- FEATURED PLAYER -->
+    <div class="player-section">
+      <div class="player-screen" id="playerScreen">
+        <span class="player-emoji">🏛️</span>
+        <div class="play-overlay">
+          <div class="play-circle" id="playBtn" onclick="togglePlay()">▶</div>
+        </div>
+      </div>
+      <div class="player-bar">
+        <div class="progress-wrap" onclick="seekVideo(event)">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="player-controls">
+          <div class="ctrl-left">
+            <button class="ctrl-btn" onclick="togglePlay()" id="playIcon">▶</button>
+            <button class="ctrl-btn">⏭</button>
+            <div class="vol-wrap">
+              <button class="ctrl-btn">🔊</button>
+              <div class="vol-bar"><div class="vol-fill"></div></div>
+            </div>
+            <span class="time-display" id="timeDisp">1:23 / 4:56</span>
+          </div>
+          <div class="ctrl-right">
+            <span class="quality-badge">HD</span>
+            <button class="ctrl-btn">⚙</button>
+            <button class="ctrl-btn">⛶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="player-info">
+      <div class="pi-top">
+        <div class="pi-title" id="featuredTitle">प्रधानमन्त्रीले संसद्मा विश्वासको मत लिने तयारी — विशेष रिपोर्ट</div>
+        <div class="pi-share">
+          <button class="ps-btn ps-fb">f</button>
+          <button class="ps-btn ps-wa">💬</button>
+          <button class="ps-btn ps-copy">🔗</button>
+        </div>
+      </div>
+      <div class="pi-meta">
+        <div class="pi-views">👁 ४५,२३४ दर्शक</div>
+        <span>📅 बिहीबार, ०१ जेठ २०८२</span>
+        <span>⏱ ४:५६</span>
+        <span>📁 राजनीति</span>
+      </div>
+    </div>
+
+    <!-- MORE VIDEOS -->
+    <div style="margin-top:22px;">
+      <div class="sec-head"><h2>ताजा भिडियोहरू</h2><a href="#" class="more">सबै →</a></div>
+      <div class="video-grid">
+        <div class="vid-card" onclick="switchVideo(this,'सगरमाथा आरोहण: यो वर्षको अभियान कस्तो रह्यो?','🏔️','vt-bg2')">
+          <div class="vid-thumb vt-bg2">🏔️<div class="vid-play-btn">▶</div><span class="vid-duration">4:32</span></div>
+          <div class="vid-body"><div class="vid-cat">पर्यटन</div><div class="vid-title">सगरमाथा आरोहण: यो वर्षको अभियान कस्तो रह्यो?</div><div class="vid-meta"><span>१२ मिनेट अघि</span><span>👁 ३,४५६</span></div></div>
+        </div>
+        <div class="vid-card" onclick="switchVideo(this,'लाइभ: संसद् विशेष अधिवेशन सुरु','🏛️','vt-bg1')">
+          <div class="vid-thumb vt-bg1">🏛️<div class="vid-live">● LIVE</div><div class="vid-play-btn">▶</div></div>
+          <div class="vid-body"><div class="vid-cat">राजनीति</div><div class="vid-title">लाइभ: संसद् विशेष अधिवेशन सुरु</div><div class="vid-meta"><span>अहिले</span><span>👁 १२,३४५</span></div></div>
+        </div>
+        <div class="vid-card" onclick="switchVideo(this,'तराईमा मनसुनपूर्व खेती: किसानहरूको तयारी','🌾','vt-bg2')">
+          <div class="vid-thumb vt-bg2" style="background:linear-gradient(135deg,#2a4a1a,#4a8a30);">🌾<div class="vid-play-btn">▶</div><span class="vid-duration">6:15</span></div>
+          <div class="vid-body"><div class="vid-cat">कृषि</div><div class="vid-title">तराईमा मनसुनपूर्व खेती: किसानहरूको तयारी</div><div class="vid-meta"><span>१ घण्टा अघि</span><span>👁 ५,७८९</span></div></div>
+        </div>
+        <div class="vid-card" onclick="switchVideo(this,'नेपाल क्रिकेट: एशिया कप छनोटको तयारी','🏏','vt-bg3')">
+          <div class="vid-thumb vt-bg3">🏏<div class="vid-play-btn">▶</div><span class="vid-duration">3:45</span></div>
+          <div class="vid-body"><div class="vid-cat">खेलकुद</div><div class="vid-title">नेपाल क्रिकेट: एशिया कप छनोटको तयारी</div><div class="vid-meta"><span>२ घण्टा अघि</span><span>👁 ९,०१२</span></div></div>
+        </div>
+        <div class="vid-card" onclick="switchVideo(this,'नेप्से सूचकाङ्क: विशेषज्ञको विश्लेषण','📈','vt-bg4')">
+          <div class="vid-thumb vt-bg4">📈<div class="vid-play-btn">▶</div><span class="vid-duration">8:20</span></div>
+          <div class="vid-body"><div class="vid-cat">अर्थ-वाणिज्य</div><div class="vid-title">नेप्से सूचकाङ्क: विशेषज्ञको विश्लेषण</div><div class="vid-meta"><span>३ घण्टा अघि</span><span>👁 ७,३४५</span></div></div>
+        </div>
+        <div class="vid-card" onclick="switchVideo(this,'मनसुन पूर्वानुमान २०८२: मौसम विज्ञानीसँग कुराकानी','🌧️','vt-bg6')">
+          <div class="vid-thumb vt-bg6">🌧️<div class="vid-play-btn">▶</div><span class="vid-duration">5:10</span></div>
+          <div class="vid-body"><div class="vid-cat">समाज</div><div class="vid-title">मनसुन पूर्वानुमान २०८२: मौसम विज्ञानीसँग कुराकानी</div><div class="vid-meta"><span>४ घण्टा अघि</span><span>👁 ४,५६७</span></div></div>
+        </div>
+        <div class="vid-card" onclick="switchVideo(this,'भारतीय विदेशमन्त्रीको काठमाडौं भ्रमण: कूटनीतिक प्रभाव','🌏','vt-bg1')">
+          <div class="vid-thumb vt-bg1" style="background:linear-gradient(135deg,#1a2a4a,#304080);">🌏<div class="vid-play-btn">▶</div><span class="vid-duration">7:02</span></div>
+          <div class="vid-body"><div class="vid-cat">कूटनीति</div><div class="vid-title">भारतीय विदेशमन्त्रीको काठमाडौं भ्रमण: कूटनीतिक प्रभाव</div><div class="vid-meta"><span>५ घण्टा अघि</span><span>👁 ६,२३४</span></div></div>
+        </div>
+        <div class="vid-card" onclick="switchVideo(this,'एसईई नतिजा विश्लेषण: विद्यार्थी र शिक्षकको प्रतिक्रिया','🎓','vt-bg5')">
+          <div class="vid-thumb vt-bg5">🎓<div class="vid-play-btn">▶</div><span class="vid-duration">9:34</span></div>
+          <div class="vid-body"><div class="vid-cat">शिक्षा</div><div class="vid-title">एसईई नतिजा विश्लेषण: विद्यार्थी र शिक्षकको प्रतिक्रिया</div><div class="vid-meta"><span>६ घण्टा अघि</span><span>👁 ११,०२३</span></div></div>
+        </div>
+        <div class="vid-card" onclick="switchVideo(this,'बुटवल-ढल्केबर प्रसारण लाइन: ऊर्जा क्रान्तिको सुरुवात','⚡','vt-bg4')">
+          <div class="vid-thumb vt-bg4" style="background:linear-gradient(135deg,#2a2a0a,#6a6a10);">⚡<div class="vid-play-btn">▶</div><span class="vid-duration">4:18</span></div>
+          <div class="vid-body"><div class="vid-cat">ऊर्जा</div><div class="vid-title">बुटवल-ढल्केबर प्रसारण लाइन: ऊर्जा क्रान्तिको सुरुवात</div><div class="vid-meta"><span>७ घण्टा अघि</span><span>👁 ३,८९०</span></div></div>
+        </div>
+      </div>
+      <div class="load-more-wrap"><button class="btn-load" onclick="this.textContent='लोड भइरहेछ…'">थप भिडियो लोड गर्नुहोस् ↓</button></div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="widget">
+      <div class="widget-head">📋 प्लेलिस्ट</div>
+      <div class="widget-body">
+        <div class="playlist-item active" onclick="switchVideo(this,'प्रधानमन्त्रीले विश्वासको मत लिने — विशेष रिपोर्ट','🏛️','vt-bg1')">
+          <div class="pl-thumb vt-bg1"><div class="pl-play"><span>▶</span></div><span class="pl-dur">4:56</span></div>
+          <div><div class="now-playing">अहिले चलिरहेको</div><div class="pl-title">प्रधानमन्त्रीले विश्वासको मत लिने — विशेष रिपोर्ट</div><div class="pl-meta">राजनीति • ३ घण्टा अघि</div></div>
+        </div>
+        <div class="playlist-item" onclick="switchVideo(this,'सगरमाथा आरोहण: यो वर्षको अभियान','🏔️','vt-bg2')">
+          <div class="pl-thumb vt-bg2"><div class="pl-play"><span>▶</span></div><span class="pl-dur">4:32</span></div>
+          <div><div class="pl-title">सगरमाथा आरोहण: यो वर्षको अभियान</div><div class="pl-meta">पर्यटन • १ घण्टा अघि</div></div>
+        </div>
+        <div class="playlist-item" onclick="switchVideo(this,'नेपाल क्रिकेट: एशिया कप तयारी','🏏','vt-bg3')">
+          <div class="pl-thumb vt-bg3"><div class="pl-play"><span>▶</span></div><span class="pl-dur">3:45</span></div>
+          <div><div class="pl-title">नेपाल क्रिकेट: एशिया कप तयारी</div><div class="pl-meta">खेलकुद • २ घण्टा अघि</div></div>
+        </div>
+        <div class="playlist-item" onclick="switchVideo(this,'नेप्से सूचकाङ्क: विशेषज्ञको विश्लेषण','📈','vt-bg4')">
+          <div class="pl-thumb vt-bg4"><div class="pl-play"><span>▶</span></div><span class="pl-dur">8:20</span></div>
+          <div><div class="pl-title">नेप्से सूचकाङ्क: विशेषज्ञको विश्लेषण</div><div class="pl-meta">अर्थ • ३ घण्टा अघि</div></div>
+        </div>
+        <div class="playlist-item" onclick="switchVideo(this,'एसईई नतिजा विश्लेषण','🎓','vt-bg5')">
+          <div class="pl-thumb vt-bg5"><div class="pl-play"><span>▶</span></div><span class="pl-dur">9:34</span></div>
+          <div><div class="pl-title">एसईई नतिजा विश्लेषण</div><div class="pl-meta">शिक्षा • ६ घण्टा अघि</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="widget">
+      <div class="widget-head">🔥 सर्वाधिक हेरिएका</div>
+      <div class="widget-body">
+        <div class="playlist-item" onclick="switchVideo(this,'भूकम्पको धक्का: स्थलगत रिपोर्ट','🌋','vt-bg3')">
+          <div class="pl-thumb" style="background:linear-gradient(135deg,#4a1a0a,#c03010);"><div class="pl-play"><span>▶</span></div><span class="pl-dur">2:45</span></div>
+          <div><div class="pl-title">भूकम्पको धक्का: स्थलगत रिपोर्ट</div><div class="pl-meta">👁 ४५,२३४ दर्शक</div></div>
+        </div>
+        <div class="playlist-item" onclick="switchVideo(this,'एसईई नतिजा: टपर विद्यार्थीको प्रतिक्रिया','🎓','vt-bg5')">
+          <div class="pl-thumb vt-bg5"><div class="pl-play"><span>▶</span></div><span class="pl-dur">5:12</span></div>
+          <div><div class="pl-title">एसईई नतिजा: टपर विद्यार्थीको प्रतिक्रिया</div><div class="pl-meta">👁 ३२,४५६ दर्शक</div></div>
+        </div>
+        <div class="playlist-item" onclick="switchVideo(this,'क्रिकेट उत्सव: काठमाडौंमा जश्न','🏏','vt-bg3')">
+          <div class="pl-thumb vt-bg3"><div class="pl-play"><span>▶</span></div><span class="pl-dur">3:28</span></div>
+          <div><div class="pl-title">क्रिकेट उत्सव: काठमाडौंमा जश्न</div><div class="pl-meta">👁 २८,७८९ दर्शक</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="widget">
+      <div class="widget-head">🏷️ ट्याग</div>
+      <div class="tags-box">
+        <span class="tag-item">राजनीति</span><span class="tag-item">क्रिकेट</span>
+        <span class="tag-item">भूकम्प</span><span class="tag-item">नेप्से</span>
+        <span class="tag-item">एसईई</span><span class="tag-item">पर्यटन</span>
+        <span class="tag-item">मनसुन</span><span class="tag-item">लाइभ</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div><div class="footer-logo">नेपाल समाचार</div><p class="footer-about">नेपालको अग्रणी अनलाइन समाचार पोर्टल। सत्य, निष्पक्षता र विश्वसनीयताका साथ विगत २५ वर्षदेखि पत्रकारिता गर्दै आएका छौं।</p><div class="footer-social"><div class="soc-btn">f</div><div class="soc-btn">𝕏</div><div class="soc-btn">in</div><div class="soc-btn">▶</div></div></div>
+    <div class="footer-col"><h5>विभाग</h5><ul><li><a href="category.html">राजनीति</a></li><li><a href="#">अर्थ-वाणिज्य</a></li><li><a href="#">समाज</a></li><li><a href="#">खेलकुद</a></li></ul></div>
+    <div class="footer-col"><h5>सेवाहरू</h5><ul><li><a href="#">ई-पेपर</a></li><li><a href="video.html">भिडियो</a></li><li><a href="photo-gallery.html">फोटो ग्यालरी</a></li></ul></div>
+    <div class="footer-col"><h5>सम्पर्क</h5><ul><li><a href="#">हाम्रोबारे</a></li><li><a href="#">विज्ञापन</a></li><li><a href="#">करियर</a></li></ul><div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.5);line-height:1.6;">📞 ०१-४४२१२३४<br/>✉️ news@nepalsamachar.com</div></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-bottom-inner"><span class="footer-copy">© २०८२ नेपाल समाचार। सर्वाधिकार सुरक्षित।</span><div class="footer-legal"><a href="#">गोपनीयता नीति</a><a href="#">प्रयोग शर्त</a></div></div></div>
+</footer>
+
+<script>
+let playing=false,progress=35;
+function togglePlay(){
+  playing=!playing;
+  document.getElementById('playBtn').textContent=playing?'⏸':'▶';
+  document.getElementById('playIcon').textContent=playing?'⏸':'▶';
+  if(playing){startProgress();}
+}
+let pInterval;
+function startProgress(){
+  clearInterval(pInterval);
+  pInterval=setInterval(()=>{
+    if(!playing){clearInterval(pInterval);return;}
+    progress=Math.min(100,progress+0.3);
+    document.getElementById('progressFill').style.width=progress+'%';
+    const total=296,curr=Math.floor(total*(progress/100));
+    const cm=Math.floor(curr/60),cs=curr%60,tm=Math.floor(total/60),ts=total%60;
+    document.getElementById('timeDisp').textContent=`${cm}:${cs<10?'0':''}${cs} / ${tm}:${ts<10?'0':''}${ts}`;
+  },200);
+}
+function seekVideo(e){
+  const rect=e.currentTarget.getBoundingClientRect();
+  progress=Math.max(0,Math.min(100,(e.clientX-rect.left)/rect.width*100));
+  document.getElementById('progressFill').style.width=progress+'%';
+}
+function switchVideo(card,title,emoji,bg){
+  playing=false;
+  clearInterval(pInterval);
+  document.getElementById('playBtn').textContent='▶';
+  document.getElementById('playIcon').textContent='▶';
+  document.getElementById('featuredTitle').textContent=title;
+  const screen=document.getElementById('playerScreen');
+  screen.querySelector('.player-emoji').textContent=emoji;
+  screen.className='player-screen '+bg;
+  progress=0;
+  document.getElementById('progressFill').style.width='0%';
+  document.getElementById('timeDisp').textContent='0:00 / 4:56';
+  document.querySelectorAll('.playlist-item').forEach(p=>p.classList.remove('active'));
+  if(card.classList.contains('playlist-item'))card.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav-item').forEach(el=>{el.addEventListener('click',function(){document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));this.classList.add('active');});});
+document.querySelectorAll('.vid-tab').forEach(el=>{el.addEventListener('click',function(){document.querySelectorAll('.vid-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');});});
+</script>
+</body>
+</html>

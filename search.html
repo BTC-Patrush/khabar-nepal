@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>खोज परिणाम — नेपाल समाचार</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800&family=Noto+Serif+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--red:#c0392b;--red-dark:#922b21;--blue:#1a5276;--blue-mid:#2471a3;--blue-light:#d6eaf8;--blue-pale:#eaf4fb;--gold:#d4a017;--gray:#f4f6f7;--border:#d5d8dc;--text:#1c2833;--muted:#626567;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans Devanagari',sans-serif;background:#f0f3f4;color:var(--text);font-size:16px;line-height:1.65;}
+h1,h2,h3,h4{font-family:'Noto Serif Devanagari',serif;}
+a{text-decoration:none;color:inherit;}
+.top-bar{background:var(--blue);color:rgba(255,255,255,.8);font-size:13px;padding:6px 0;border-bottom:2px solid var(--gold);}
+.top-bar-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
+.top-date{display:flex;align-items:center;gap:12px;}
+.top-date span{color:rgba(255,255,255,.7);}
+.top-links{display:flex;gap:14px;}
+.top-links a{color:rgba(255,255,255,.7);font-size:11.5px;}
+.top-links a:hover{color:#fff;}
+.masthead{background:#fff;border-bottom:3px solid var(--blue);padding:14px 0 10px;}
+.masthead-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Noto Serif Devanagari',serif;font-size:2.5rem;font-weight:800;line-height:1;color:var(--red);letter-spacing:-1px;}
+.logo-sub{font-size:13px;color:var(--muted);font-family:'Noto Sans Devanagari',sans-serif;font-weight:400;margin-top:3px;}
+.masthead-actions{display:flex;align-items:center;gap:10px;}
+.btn-epaper{background:var(--red);color:#fff;font-size:14px;font-weight:600;padding:8px 15px;border-radius:4px;border:none;cursor:pointer;}
+.btn-login{background:var(--blue);color:#fff;font-size:14px;font-weight:600;padding:8px 15px;border-radius:4px;border:none;cursor:pointer;}
+.main-nav{background:var(--blue);position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.18);}
+.main-nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:stretch;}
+.nav-item{color:rgba(255,255,255,.88);font-size:15px;font-weight:600;padding:12px 15px;cursor:pointer;border-right:1px solid rgba(255,255,255,.1);transition:background .2s;white-space:nowrap;display:flex;align-items:center;}
+.nav-item:hover{background:var(--blue-mid);color:#fff;}
+.nav-item.active{background:var(--red);color:#fff;}
+
+/* SEARCH HERO */
+.search-hero{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-mid) 100%);padding:30px 0 24px;border-bottom:3px solid var(--gold);}
+.search-hero-inner{max-width:1280px;margin:0 auto;padding:0 16px;}
+.search-hero h1{font-family:'Noto Serif Devanagari',serif;font-size:1.3rem;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:14px;}
+.search-hero h1 em{color:#fff;font-style:normal;}
+.big-search{display:flex;gap:0;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.2);max-width:780px;}
+.big-search input{flex:1;border:none;padding:14px 18px;font-size:16px;font-family:'Noto Sans Devanagari',sans-serif;outline:none;color:var(--text);}
+.big-search button{background:var(--red);border:none;color:#fff;padding:14px 24px;font-size:15px;font-weight:700;transition:background .2s;white-space:nowrap;}
+.big-search button:hover{background:var(--red-dark);}
+.search-meta{margin-top:12px;font-size:14px;color:rgba(255,255,255,.7);}
+.search-meta strong{color:#fff;}
+
+/* POPULAR SEARCHES */
+.popular-row{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.pop-label{font-size:13px;color:rgba(255,255,255,.65);white-space:nowrap;}
+.pop-tag{background:rgba(255,255,255,.15);color:#fff;font-size:14px;padding:4px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition:background .2s;}
+.pop-tag:hover{background:rgba(255,255,255,.3);}
+
+/* BREADCRUMB */
+.breadcrumb{max-width:1280px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);}
+.breadcrumb a{color:var(--blue-mid);}
+.breadcrumb span{color:var(--border);}
+
+/* LAYOUT */
+.page{max-width:1280px;margin:0 auto;padding:14px 16px 32px;display:grid;grid-template-columns:220px 1fr;gap:18px;}
+
+/* FILTER SIDEBAR */
+.filter-panel{display:flex;flex-direction:column;gap:12px;}
+.filter-box{background:#fff;border:1px solid var(--border);border-radius:5px;overflow:hidden;}
+.filter-head{background:var(--blue);color:#fff;font-size:15px;font-weight:700;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;}font-weight:700;padding:9px 14px;display:flex;align-items:center;justify-content:space-between;}
+.filter-body{padding:12px;}
+.filter-group{margin-bottom:12px;}
+.filter-group:last-child{margin-bottom:0;}
+.filter-label{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.filter-option{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;}
+.filter-option input[type=radio],.filter-option input[type=checkbox]{accent-color:var(--blue);width:13px;height:13px;cursor:pointer;}
+.filter-option label{font-size:14px;color:var(--text);cursor:pointer;flex:1;}
+.filter-option .count{font-size:13px;color:var(--muted);background:var(--gray);padding:1px 6px;border-radius:10px;}
+.date-input{width:100%;border:1px solid var(--border);border-radius:4px;padding:7px 9px;font-size:14px;font-family:'Noto Sans Devanagari',sans-serif;color:var(--text);outline:none;margin-bottom:6px;}
+.date-input:focus{border-color:var(--blue-mid);}
+.btn-apply{width:100%;background:var(--blue);color:#fff;border:none;border-radius:4px;padding:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans Devanagari',sans-serif;}
+.btn-reset{width:100%;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:7px;font-size:14px;cursor:pointer;margin-top:6px;font-family:'Noto Sans Devanagari',sans-serif;}
+
+/* RESULTS AREA */
+.results-area{}
+.results-header{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--border);border-radius:5px;padding:12px 16px;margin-bottom:12px;}
+.results-info{font-size:15px;color:var(--text);}
+.results-info strong{color:var(--blue);}
+.results-info .query-word{color:var(--red);font-weight:700;font-family:'Noto Serif Devanagari',serif;}
+.results-sort{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.sort-btn{padding:6px 14px;border-radius:4px;border:1px solid var(--border);background:#fff;font-size:14px;cursor:pointer;font-family:'Noto Sans Devanagari',sans-serif;color:var(--text);transition:all .2s;}
+.sort-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.sort-btn:hover:not(.active){background:var(--blue-pale);}
+
+/* ACTIVE FILTERS */
+.active-filters{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.af-label{font-size:13px;color:var(--muted);font-weight:600;}
+.af-tag{display:flex;align-items:center;gap:5px;background:var(--blue-pale);color:var(--blue);font-size:13px;padding:4px 10px;border-radius:100px;border:1px solid var(--blue-light);}
+.af-tag button{background:none;border:none;color:var(--blue-mid);cursor:pointer;font-size:13px;line-height:1;padding:0;}
+.af-tag button:hover{color:var(--red);}
+.clear-all{font-size:13px;color:var(--red);font-weight:600;cursor:pointer;}
+.clear-all:hover{text-decoration:underline;}
+
+/* RESULT ITEMS */
+.result-item{background:#fff;border:1px solid var(--border);border-radius:5px;overflow:hidden;display:flex;margin-bottom:10px;transition:box-shadow .2s;}
+.result-item:hover{box-shadow:0 4px 18px rgba(0,0,0,.1);}
+.ri-thumb{width:160px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:2.5rem;}
+.img-blue{background:linear-gradient(135deg,#d6eaf8,#aed6f1);}
+.img-green{background:linear-gradient(135deg,#d5f5e3,#a9dfbf);}
+.img-amber{background:linear-gradient(135deg,#fef9e7,#f9e79f);}
+.img-pink{background:linear-gradient(135deg,#fdedec,#f1948a);}
+.img-purple{background:linear-gradient(135deg,#f5eef8,#c39bd3);}
+.img-teal{background:linear-gradient(135deg,#e8f8f5,#76d7c4);}
+.ri-body{padding:14px 16px;flex:1;}
+.ri-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.ri-cat{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:3px;}
+.ri-source{font-size:13px;color:var(--blue-mid);}
+.ri-title{font-family:'Noto Serif Devanagari',serif;font-size:16px;font-weight:700;line-height:1.45;color:var(--text);margin-bottom:6px;cursor:pointer;}
+.ri-title:hover{color:var(--red);}
+.ri-title mark{background:#fff3cd;color:var(--text);border-radius:2px;padding:0 2px;}
+.ri-excerpt{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:8px;}
+.ri-excerpt mark{background:#fff3cd;color:var(--text);border-radius:2px;padding:0 2px;}
+.ri-meta{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted);}
+.ri-author{display:flex;align-items:center;gap:5px;}
+.a-dot{width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* NO RESULTS */
+.no-results{background:#fff;border:1px solid var(--border);border-radius:5px;padding:48px;text-align:center;}
+.no-results .icon{font-size:3rem;margin-bottom:12px;}
+.no-results h3{font-family:'Noto Serif Devanagari',serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.no-results p{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:18px;}
+.page-btn{width:34px;height:34px;border-radius:5px;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text);}
+.page-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+.page-btn.active{background:var(--red);color:#fff;border-color:var(--red);}
+.page-btn.nav-pg{width:auto;padding:0 14px;font-size:12px;}
+
+/* SIDEBAR WIDGET */
+.s-widget{background:#fff;border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:14px;}
+.s-widget-head{background:var(--blue);color:#fff;font-size:15px;font-weight:700;padding:10px 14px;}font-weight:700;padding:9px 14px;}
+.s-widget-body{padding:0 12px;}
+.trend-item{display:flex;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:1px solid #eaecee;}
+.trend-item:last-child{border-bottom:none;}
+.trend-num{width:22px;height:22px;border-radius:3px;background:var(--blue);color:#fff;font-size:10px;font-weight:700;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.trend-item:nth-child(1) .trend-num{background:var(--red);}
+.trend-item:nth-child(2) .trend-num{background:#d35400;}
+.trend-item:nth-child(3) .trend-num{background:var(--gold);}
+.trend-title{font-size:16px;font-weight:600;color:var(--text);line-height:1.4;cursor:pointer;}
+.trend-title:hover{color:var(--red);}
+.trend-meta{font-size:13px;color:var(--muted);margin-top:3px;}
+
+/* FOOTER */
+footer{background:var(--blue);margin-top:20px;}
+.footer-top{max-width:1280px;margin:0 auto;padding:28px 16px 20px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2rem;}
+.footer-logo{font-family:'Noto Serif Devanagari',serif;font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:9px;}
+.footer-about{font-size:16px;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:14px;}
+.footer-social{display:flex;gap:8px;}
+.soc-btn{width:34px;height:34px;border-radius:4px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:15px;cursor:pointer;font-weight:700;transition:all .2s;}
+.soc-btn:hover{background:var(--red);border-color:var(--red);color:#fff;}
+.footer-col h5{font-size:16px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:7px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.footer-col li a{font-size:16px;color:rgba(255,255,255,.55);}
+.footer-col li a:hover{color:rgba(255,255,255,.9);}
+.footer-bottom{background:rgba(0,0,0,.25);padding:10px 0;}
+.footer-bottom-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
+.footer-copy{font-size:15px;color:rgba(255,255,255,.45);}
+.footer-legal{display:flex;gap:14px;}
+.footer-legal a{font-size:15px;color:rgba(255,255,255,.45);}
+.footer-legal a:hover{color:rgba(255,255,255,.8);}
+
+@media(max-width:1024px){.page{grid-template-columns:1fr;}.filter-panel{display:none;}.footer-top{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.masthead-actions{display:none;}.result-item{flex-direction:column;}.ri-thumb{width:100%;height:140px;}.footer-top{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-date"><span>🗓 बिहीबार, ०१ जेठ २०८२</span><span style="border-left:1px solid rgba(255,255,255,.2);padding-left:12px;">Thursday, 15 May 2026</span></div>
+    <div class="top-links"><a href="index.html">गृहपृष्ठ</a><a href="#">ई-पेपर</a><a href="#">अंग्रेजी</a><a href="#">सम्पर्क</a></div>
+    <div style="color:rgba(255,255,255,.8);font-size:12px;">☀️ काठमाडौं: २७°C</div>
+  </div>
+</div>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div><div class="logo"><a href="index.html">नेपाल समाचार</a></div><div class="logo-sub">सत्य, निष्पक्षता र विश्वसनीयता</div></div>
+    <div style="background:var(--blue-pale);border:1px solid var(--blue-light);border-radius:6px;padding:8px 24px;text-align:center;color:var(--blue);font-size:11px;font-weight:600;"><span style="font-size:9px;color:var(--muted);display:block;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px;">विज्ञापन</span>📢 यहाँ विज्ञापन राख्न सम्पर्क गर्नुहोस्</div>
+    <div class="masthead-actions"><button class="btn-epaper">ई-पेपर</button><button class="btn-login">लगइन</button></div>
+  </div>
+</div>
+
+<nav class="main-nav">
+  <div class="main-nav-inner">
+    <div class="nav-item" onclick="location.href='index.html'">🏠</div>
+    <div class="nav-item">ताजा समाचार</div>
+    <div class="nav-item" onclick="location.href='category.html'">राजनीति</div>
+    <div class="nav-item">अर्थ-वाणिज्य</div>
+    <div class="nav-item">समाज</div>
+    <div class="nav-item">प्रदेश</div>
+    <div class="nav-item">खेलकुद</div>
+    <div class="nav-item">विश्व</div>
+    <div class="nav-item">प्रविधि</div>
+    <div class="nav-item">मनोरञ्जन</div>
+    <div class="nav-item">विचार</div>
+    <div class="nav-item">स्वास्थ्य</div>
+    <div class="nav-item" onclick="location.href='photo-gallery.html'">फोटो</div>
+    <div class="nav-item" onclick="location.href='video.html'">भिडियो</div>
+  </div>
+</nav>
+
+<!-- SEARCH HERO -->
+<div class="search-hero">
+  <div class="search-hero-inner">
+    <h1>🔍 खोज: <em id="queryDisplay">प्रधानमन्त्री</em></h1>
+    <div class="big-search">
+      <input type="text" id="searchInput" value="प्रधानमन्त्री" placeholder="समाचार खोज्नुहोस्…"/>
+      <button onclick="doSearch()">खोज्नुहोस्</button>
+    </div>
+    <div class="search-meta"><strong id="resultCount">१,२४७</strong> परिणाम भेटिए — <strong>०.३२</strong> सेकेन्डमा</div>
+    <div class="popular-row">
+      <span class="pop-label">लोकप्रिय:</span>
+      <span class="pop-tag" onclick="setSearch('संसद्')">संसद्</span>
+      <span class="pop-tag" onclick="setSearch('भूकम्प')">भूकम्प</span>
+      <span class="pop-tag" onclick="setSearch('नेप्से')">नेप्से</span>
+      <span class="pop-tag" onclick="setSearch('क्रिकेट')">क्रिकेट</span>
+      <span class="pop-tag" onclick="setSearch('मनसुन')">मनसुन</span>
+      <span class="pop-tag" onclick="setSearch('एसईई')">एसईई</span>
+    </div>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">गृहपृष्ठ</a><span>›</span><span style="color:var(--text);">खोज: "प्रधानमन्त्री"</span>
+</div>
+
+<div class="page">
+
+  <!-- FILTER SIDEBAR -->
+  <aside class="filter-panel">
+    <div class="filter-box">
+      <div class="filter-head">⚙️ फिल्टर</div>
+      <div class="filter-body">
+        <div class="filter-group">
+          <div class="filter-label">मिति</div>
+          <div class="filter-option"><input type="radio" name="date" id="d1" checked/><label for="d1">सबै समय</label></div>
+          <div class="filter-option"><input type="radio" name="date" id="d2"/><label for="d2">आज</label></div>
+          <div class="filter-option"><input type="radio" name="date" id="d3"/><label for="d3">यो हप्ता</label></div>
+          <div class="filter-option"><input type="radio" name="date" id="d4"/><label for="d4">यो महिना</label></div>
+          <div class="filter-option"><input type="radio" name="date" id="d5"/><label for="d5">यो वर्ष</label></div>
+          <div class="filter-option"><input type="radio" name="date" id="d6"/><label for="d6">मिति तोक्नुहोस्</label></div>
+          <div id="customDate" style="display:none;margin-top:8px;">
+            <input type="date" class="date-input" placeholder="सुरु मिति"/>
+            <input type="date" class="date-input" placeholder="अन्त्य मिति"/>
+          </div>
+        </div>
+        <div class="filter-group" style="border-top:1px solid var(--border);padding-top:12px;">
+          <div class="filter-label">विभाग</div>
+          <div class="filter-option"><input type="checkbox" id="c1" checked/><label for="c1">राजनीति</label><span class="count">४२३</span></div>
+          <div class="filter-option"><input type="checkbox" id="c2"/><label for="c2">अर्थ-वाणिज्य</label><span class="count">१८७</span></div>
+          <div class="filter-option"><input type="checkbox" id="c3"/><label for="c3">समाज</label><span class="count">२३४</span></div>
+          <div class="filter-option"><input type="checkbox" id="c4"/><label for="c4">विश्व</label><span class="count">१५६</span></div>
+          <div class="filter-option"><input type="checkbox" id="c5"/><label for="c5">खेलकुद</label><span class="count">९८</span></div>
+          <div class="filter-option"><input type="checkbox" id="c6"/><label for="c6">प्रविधि</label><span class="count">७४</span></div>
+        </div>
+        <div class="filter-group" style="border-top:1px solid var(--border);padding-top:12px;">
+          <div class="filter-label">सामग्री प्रकार</div>
+          <div class="filter-option"><input type="checkbox" id="t1" checked/><label for="t1">समाचार</label><span class="count">९८७</span></div>
+          <div class="filter-option"><input type="checkbox" id="t2"/><label for="t2">विचार/लेख</label><span class="count">१४३</span></div>
+          <div class="filter-option"><input type="checkbox" id="t3"/><label for="t3">भिडियो</label><span class="count">५६</span></div>
+          <div class="filter-option"><input type="checkbox" id="t4"/><label for="t4">फोटो</label><span class="count">६१</span></div>
+        </div>
+        <button class="btn-apply">फिल्टर लगाउनुहोस्</button>
+        <button class="btn-reset">रिसेट गर्नुहोस्</button>
+      </div>
+    </div>
+
+    <div class="s-widget">
+      <div class="s-widget-head">🔥 धेरै खोजिएका</div>
+      <div class="s-widget-body">
+        <div class="trend-item"><div class="trend-num">१</div><div><div class="trend-title">संसद् विश्वासको मत</div><div class="trend-meta">४,२३४ खोजी</div></div></div>
+        <div class="trend-item"><div class="trend-num">२</div><div><div class="trend-title">एसईई नतिजा २०८२</div><div class="trend-meta">३,८७६ खोजी</div></div></div>
+        <div class="trend-item"><div class="trend-num">३</div><div><div class="trend-title">नेप्से सूचकाङ्क</div><div class="trend-meta">३,१२३ खोजी</div></div></div>
+        <div class="trend-item"><div class="trend-num">४</div><div><div class="trend-title">मनसुन पूर्वानुमान</div><div class="trend-meta">२,५४३ खोजी</div></div></div>
+        <div class="trend-item"><div class="trend-num">५</div><div><div class="trend-title">भूकम्प काठमाडौं</div><div class="trend-meta">१,९८७ खोजी</div></div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RESULTS -->
+  <div class="results-area">
+    <div class="results-header">
+      <div class="results-info"><strong id="rc2">१,२४७</strong> परिणाम भेटिए: "<span class="query-word" id="qw">प्रधानमन्त्री</span>"</div>
+      <div class="results-sort">
+        <span>क्रमबद्ध:</span>
+        <button class="sort-btn active">सान्दर्भिक</button>
+        <button class="sort-btn">नयाँ पहिले</button>
+        <button class="sort-btn">धेरै पढिएको</button>
+      </div>
+    </div>
+
+    <div class="active-filters">
+      <span class="af-label">सक्रिय फिल्टर:</span>
+      <span class="af-tag">राजनीति <button onclick="this.parentElement.remove()">×</button></span>
+      <span class="af-tag">समाचार <button onclick="this.parentElement.remove()">×</button></span>
+      <span class="clear-all" onclick="document.querySelectorAll('.af-tag').forEach(t=>t.remove())">सबै हटाउनुहोस्</span>
+    </div>
+
+    <div id="resultsList">
+      <div class="result-item">
+        <div class="ri-thumb img-blue">🏛️</div>
+        <div class="ri-body">
+          <div class="ri-top"><span class="ri-cat">राजनीति</span><span class="ri-source">नेपाल समाचार</span></div>
+          <div class="ri-title" onclick="location.href='article-detail.html'"><mark>प्रधानमन्त्री</mark>ले संसद्मा विश्वासको मत लिने तयारी, दलहरूबीच घमासान बहस</div>
+          <div class="ri-excerpt">सत्तारूढ गठबन्धनमा देखिएको दरारपछि <mark>प्रधानमन्त्री</mark>ले आफ्नो बहुमत प्रमाणित गर्न संसद्मा विश्वासको मत माग्ने निर्णय गरेका छन्…</div>
+          <div class="ri-meta"><div class="ri-author"><div class="a-dot">र</div>रामप्रसाद पोखरेल</div><span>🕐 ३ घण्टा अघि</span><span>👁 १२,४५६</span><span>💬 ३४</span></div>
+        </div>
+      </div>
+
+      <div class="result-item">
+        <div class="ri-thumb img-amber">🤝</div>
+        <div class="ri-body">
+          <div class="ri-top"><span class="ri-cat">कूटनीति</span><span class="ri-source">नेपाल समाचार</span></div>
+          <div class="ri-title"><mark>प्रधानमन्त्री</mark>ले भारतीय विदेशमन्त्रीसँग भेटवार्ता गर्दै, द्विपक्षीय सम्बन्धमा नयाँ अध्याय</div>
+          <div class="ri-excerpt"><mark>प्रधानमन्त्री</mark>ले काठमाडौं भ्रमणमा आएका भारतीय विदेशमन्त्रीसँग बालुवाटारमा भेटवार्ता गरेका छन्। बैठकमा व्यापार र पूर्वाधार विकासका विषयमा छलफल भयो…</div>
+          <div class="ri-meta"><div class="ri-author"><div class="a-dot">म</div>मनोज बस्नेत</div><span>🕐 ८ घण्टा अघि</span><span>👁 ७,८९०</span><span>💬 १९</span></div>
+        </div>
+      </div>
+
+      <div class="result-item">
+        <div class="ri-thumb img-green">📊</div>
+        <div class="ri-body">
+          <div class="ri-top"><span class="ri-cat">अर्थ</span><span class="ri-source">नेपाल समाचार</span></div>
+          <div class="ri-title"><mark>प्रधानमन्त्री</mark>ले बजेट कार्यान्वयनको समीक्षा गरे, खर्च ५२ प्रतिशत मात्र</div>
+          <div class="ri-excerpt">आर्थिक वर्षको ९ महिना बित्दा पूँजीगत बजेट खर्च ५२ प्रतिशत मात्र भएको देखिएपछि <mark>प्रधानमन्त्री</mark>ले संबद्ध मन्त्रालयका सचिवहरूसँग समीक्षा बैठक गरे…</div>
+          <div class="ri-meta"><div class="ri-author"><div class="a-dot">ह</div>हरि खतिवडा</div><span>🕐 १ दिन अघि</span><span>👁 ५,३२१</span><span>💬 ११</span></div>
+        </div>
+      </div>
+
+      <div class="result-item">
+        <div class="ri-thumb img-pink">🗳️</div>
+        <div class="ri-body">
+          <div class="ri-top"><span class="ri-cat">राजनीति</span><span class="ri-source">नेपाल समाचार</span></div>
+          <div class="ri-title"><mark>प्रधानमन्त्री</mark> निवास बालुवाटारमा आपतकालीन बैठक, गठबन्धनको भविष्य अनिश्चित</div>
+          <div class="ri-excerpt">बिहीबार राति <mark>प्रधानमन्त्री</mark> निवासमा बसेको आपतकालीन बैठकमा गठबन्धनका सबै दलका शीर्ष नेताहरू सहभागी थिए। बैठकमा तीखो बहस भएको सूत्रहरूले बताएका छन्…</div>
+          <div class="ri-meta"><div class="ri-author"><div class="a-dot">स</div>सपना गुरुङ</div><span>🕐 १ दिन अघि</span><span>👁 ४,६७८</span><span>💬 २७</span></div>
+        </div>
+      </div>
+
+      <div class="result-item">
+        <div class="ri-thumb img-purple">🌏</div>
+        <div class="ri-body">
+          <div class="ri-top"><span class="ri-cat">विश्व</span><span class="ri-source">नेपाल समाचार</span></div>
+          <div class="ri-title"><mark>प्रधानमन्त्री</mark>को संयुक्त राष्ट्रसङ्घ भ्रमण सफल, जलवायु परिवर्तनमा नेपालको आवाज बुलन्द</div>
+          <div class="ri-excerpt">संयुक्त राष्ट्रसङ्घको महासभामा सहभागी <mark>प्रधानमन्त्री</mark>ले जलवायु परिवर्तनका कारण हिमाली देशहरूले भोग्नुपरेका समस्याहरू विश्व नेताहरूसामु राखे…</div>
+          <div class="ri-meta"><div class="ri-author"><div class="a-dot">र</div>रेखा थापा</div><span>🕐 २ दिन अघि</span><span>👁 ९,०३४</span><span>💬 ४५</span></div>
+        </div>
+      </div>
+
+      <div class="result-item">
+        <div class="ri-thumb img-teal">🏔️</div>
+        <div class="ri-body">
+          <div class="ri-top"><span class="ri-cat">पर्यटन</span><span class="ri-source">नेपाल समाचार</span></div>
+          <div class="ri-title"><mark>प्रधानमन्त्री</mark>ले भ्रमण वर्ष २०८३ को घोषणा गरे, पर्यटन क्षेत्रलाई ठूलो अपेक्षा</div>
+          <div class="ri-excerpt">आगामी वर्षलाई भ्रमण वर्षको रूपमा मनाउने घोषणा गर्दै <mark>प्रधानमन्त्री</mark>ले पर्यटकलाई आकर्षित गर्ने विशेष कार्यक्रमहरू सुरु गर्ने बताए…</div>
+          <div class="ri-meta"><div class="ri-author"><div class="a-dot">ब</div>विक्रम राई</div><span>🕐 ३ दिन अघि</span><span>👁 ६,२४५</span><span>💬 २२</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button class="page-btn nav-pg">‹ अघिल्लो</button>
+      <button class="page-btn active">१</button>
+      <button class="page-btn">२</button>
+      <button class="page-btn">३</button>
+      <button class="page-btn">४</button>
+      <button class="page-btn">५</button>
+      <span style="color:var(--muted);padding:0 4px;">…</span>
+      <button class="page-btn">४२</button>
+      <button class="page-btn nav-pg">अर्को ›</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div><div class="footer-logo">नेपाल समाचार</div><p class="footer-about">नेपालको अग्रणी अनलाइन समाचार पोर्टल। सत्य, निष्पक्षता र विश्वसनीयताका साथ विगत २५ वर्षदेखि पत्रकारिता गर्दै आएका छौं।</p><div class="footer-social"><div class="soc-btn">f</div><div class="soc-btn">𝕏</div><div class="soc-btn">in</div><div class="soc-btn">▶</div></div></div>
+    <div class="footer-col"><h5>विभाग</h5><ul><li><a href="category.html">राजनीति</a></li><li><a href="#">अर्थ-वाणिज्य</a></li><li><a href="#">समाज</a></li><li><a href="#">खेलकुद</a></li></ul></div>
+    <div class="footer-col"><h5>सेवाहरू</h5><ul><li><a href="#">ई-पेपर</a></li><li><a href="video.html">भिडियो</a></li><li><a href="photo-gallery.html">फोटो ग्यालरी</a></li></ul></div>
+    <div class="footer-col"><h5>सम्पर्क</h5><ul><li><a href="#">हाम्रोबारे</a></li><li><a href="#">विज्ञापन</a></li><li><a href="#">करियर</a></li></ul><div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.5);line-height:1.6;">📞 ०१-४४२१२३४<br/>✉️ news@nepalsamachar.com</div></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-bottom-inner"><span class="footer-copy">© २०८२ नेपाल समाचार। सर्वाधिकार सुरक्षित।</span><div class="footer-legal"><a href="#">गोपनीयता नीति</a><a href="#">प्रयोग शर्त</a></div></div></div>
+</footer>
+
+<script>
+function doSearch(){
+  const q=document.getElementById('searchInput').value.trim();
+  if(!q)return;
+  document.getElementById('queryDisplay').textContent=q;
+  document.getElementById('qw').textContent=q;
+  document.querySelectorAll('.ri-title mark,.ri-excerpt mark').forEach(m=>{const p=m.parentElement;p.innerHTML=p.innerHTML.replace(/<mark>.*?<\/mark>/g,q).replace(new RegExp(q,'g'),'<mark>'+q+'</mark>');});
+}
+function setSearch(q){document.getElementById('searchInput').value=q;doSearch();}
+document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+document.querySelectorAll('.sort-btn').forEach(b=>{b.addEventListener('click',function(){document.querySelectorAll('.sort-btn').forEach(x=>x.classList.remove('active'));this.classList.add('active');});});
+document.querySelectorAll('.page-btn').forEach(b=>{b.addEventListener('click',function(){if(!this.classList.contains('nav-pg')){document.querySelectorAll('.page-btn:not(.nav-pg)').forEach(x=>x.classList.remove('active'));this.classList.add('active');}});});
+document.querySelectorAll('input[name=date]').forEach(r=>{r.addEventListener('change',function(){document.getElementById('customDate').style.display=this.id==='d6'?'block':'none';});});
+document.querySelectorAll('.nav-item').forEach(el=>{el.addEventListener('click',function(){document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));this.classList.add('active');});});
+</script>
+</body>
+</html>
